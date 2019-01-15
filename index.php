@@ -50,8 +50,10 @@
 				    <input type="text" class="form-control" id="phone" placeholder="Введите номер телефона" required>
 				</div>
 			</div>
-			<button type="submit" id="form-submit" class="btn btn-success btn-lg pull-right ">Зарегистрироваться</button>
+			<button type="submit" id="form-submit" class="btn btn-success btn-lg float-left">Зарегистрироваться</button>
+			<a class="btn offset-md-1 btn-primary btn-lg" href="/php/admin.php" role="button">Вход для администратора</a>
 			<div id="msgSubmit" class="h3 text-center d-none">Вы успешно зарегистрированы!</div>
+			
 		</form>
 		</div>
 	</div>
