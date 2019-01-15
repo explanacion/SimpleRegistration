@@ -4,8 +4,6 @@
 	Данный файл содержит необходимый код для административной части
  */
 ?>
-
-<!DOCTYPE html>
 <html>
 <head>
     <title>Тестовое задание. Неклюдов К.А.</title>
@@ -13,7 +11,6 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="../css/bootstrap.min.css">
 </head>
-<body>
 <?
 	// Простейшая авторизация по логину-паролю
 	// Для тестового задания логин admin, пароль 12345
@@ -33,7 +30,7 @@
 	// функция отображает форму для входа в закрытый раздел сайта
 	function showSignInForm()
 	{
-		echo '<html><body>
+		echo '<body>
 		<h2>Вход в административный раздел.</h2>
 		<div class="row p-4 col-sm-12">
 		    <form id="auth" method="post" action="/php/admin.php">
@@ -61,23 +58,34 @@
 		return $value;
 	}
 	
-	if (!isset($_POST['login'])) {
+	// данных для авторизации нет
+	if ($_SERVER['REQUEST_METHOD'] != 'POST') 
+	{	
 		showSignInForm();
 	}
 	else {
-		$auth_user = clean($_POST['login']);
-		$auth_pass = clean($_POST['passwd']);
-		
-		if (empty($auth_user) || empty($auth_pass) || ($auth_user != $login) || ($auth_pass != $password)) {
-			sendErrorAuthMsg();
+		if (!isset($_POST['login'])) {
+			showSignInForm();
 		}
 		else {
-			echo "<h1>Добро пожаловать, " . $auth_user . "</h1>";
+			$auth_user = clean($_POST['login']);
+			$auth_pass = clean($_POST['passwd']);
+			
+			if (empty($auth_user) || empty($auth_pass) || ($auth_user != $login) || ($auth_pass != $password)) {
+				sendErrorAuthMsg();
+			}
+			else {
+				echo "<h1>Добро пожаловать, " . $auth_user . "</h1>";
+				define('SHOWPAGE',true);
+			}
 		}
 	}
-	// TODO здесь нужно будет прочитать csv-файл для заполнения таблицы
-?>
-
+	?>
+<? 
+// если данные авторизации были получены - показываем страницу
+if ('SHOWPAGE'): ?>
+<!DOCTYPE html>
+<body>
 <div class="row">
     <div class="w-100">
         <p class="h2 text-center">Страница для администратора.</p>
@@ -106,15 +114,31 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<th scope="row">1</th>
-					<th scope="row"></th>
-					<th scope="row"></th>
-					<th scope="row"></th>
-					<th scope="row"></th>
-					<th scope="row"></th>
-					<th scope="row"></th>
-				</tr>
+	<? endif; ?>
+	<?
+	// чтение csv-файла для заполнения таблицы
+	$csvfile = fopen('users.csv', 'r');
+	$row = 1;
+	if (($handle = $csvfile) !== FALSE) {
+		while (($data = fgetcsv($handle, 0)) !== FALSE) {
+			$num = count($data);
+			if ($num != 6)
+			{
+				echo "Число полей в строке не равно шести. Нарушена структура файла. Строка №" . $row;
+				break;
+			}
+				
+			echo '<tr>';
+			echo '<th scope="row">'. $row .'</th>';
+			for ($c=0; $c < $num; $c++) {
+				$line = $data[$c];
+				echo '<th scope="row">'.clean($line).'</th>';
+				 
+			}
+			$row++;
+		}
+	}
+?>
 			</tbody>
 			</table>
 		</div>
