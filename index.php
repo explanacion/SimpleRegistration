@@ -1,3 +1,10 @@
+<?
+ /* 15.01.19
+	Тестовое задание. Неклюдов К.А.
+	Данный файл содержит основную страницу для регистрации пользователя на некое мероприятие
+ */
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,6 +12,7 @@
     <meta charset="utf-8">
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="js/script.js"></script>
 </head>
 <body>
 <div class="row">
@@ -13,7 +21,7 @@
 		<p class="h2 text-center">Форма регистрации для участников "Ярмарки енотов".</p>
 		</div>
 		<div class="p-4">
-		<form id="regform">
+		<form id="regform" action="#">
 		    <div class="form-group row">
 				<label for="name" class="col-sm-3 h4">Имя <span style="color:red">*</span></label>
 				<div class="col-sm-4">
@@ -52,10 +60,9 @@
 			</div>
 			<button type="submit" id="form-submit" class="btn btn-success btn-lg float-left">Зарегистрироваться</button>
 			<a class="btn offset-md-1 btn-primary btn-lg" href="/php/admin.php" role="button">Вход для администратора</a>
-			<div id="msgSubmit" class="h3 text-center d-none">Вы успешно зарегистрированы!</div>
-			
 		</form>
 		</div>
+		<div id="msgSubmit" class="h5 text-left offset-md-1 d-none"></div>
 	</div>
 </div>
 </body>
